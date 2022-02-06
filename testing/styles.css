@@ -21,12 +21,12 @@ body {
     max-width: 90%;
 }
 
-/* .timer{
+.timer{
     position: relative;
     left: 45rem;
     bottom: 4rem;
-    font-size: 2rem; /* sets timer font size
-} */
+    font-size: 2rem; /* sets timer font size */
+}
 
 .showText{
     margin-bottom: 1rem;

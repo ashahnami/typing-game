@@ -3,7 +3,7 @@ const quoteSection = document.getElementById("textShow")
 const userInput = document.getElementById("textInput")
 
 let quote = "";
-let time = 30;
+let time = 10;
 let timer = "";
 let mistakes = 0;
 
@@ -25,9 +25,12 @@ userInput.addEventListener("input", () => {
     
     let userInputChars = userInput.value.split("");
     quoteChars.forEach((char,index) => {
+
         if(char.innerText == userInputChars[index]){
             char.classList.add("success");
+            console.log(correct);
         }
+
         else if(userInputChars[index] == null){
             if(char.classList.contains("success")){
                 char.classList.remove("success");
@@ -62,7 +65,7 @@ function updateTimer(){
 }
 
 const timeReduce = () => {
-    time = 30;
+    time = 10;
     timer = setInterval(updateTimer, 1000);
 };
 
@@ -72,7 +75,7 @@ const displayResult = () => {
     userInput.disabled = true;
     let timeTaken = 1;
     if(time != 0){
-        timeTaken = (30 - time)/100;
+        timeTaken = (10 - time)/100;
     }
     document.getElementById("wpm").innerText = (userInput.value.length / 5 / timeTaken).toFixed(2) + "WPM";
 };
@@ -99,3 +102,8 @@ window.onload = () => {
     userInput.value = "";
     renderNewQuote();
 }
+
+const retry = () => {
+    console.log("retry")
+    timer="";
+};

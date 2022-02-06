@@ -1,6 +1,7 @@
 * {
     margin: 0; /* page cannot be vertically scrolled */
     box-sizing: border-box; 
+    font-family: JetBrains Mono; /* sets all font families to JetBrains Mono */
 }
 
 body {

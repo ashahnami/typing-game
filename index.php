@@ -16,8 +16,8 @@
 <body>
 
     <div class="navbar">
-        <button class="register" href="">Register</button>
-        <button class="login" href="">Log in</button>
+        <a href="register.php"><button class="register">Register</button></a>
+        <a href="login.php"><button class="login" href="login.php">Log in</button></a>
     </div>
 
     <div class="container">

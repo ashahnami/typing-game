@@ -72,6 +72,7 @@ const decreaseTime = () => {
 
 const showResult = () => {
     document.querySelector(".wpm").style.display="block"; // displays score element
+    inputQuote.disabled = true; // disabled the input box
     clearInterval(timer) // stop the time from decreasing
     document.getElementById('wpm').innerText = ((index-mistakes)/5*4).toFixed(2) + "wpm"; // calculate wpm and display score on screen
 }
@@ -80,6 +81,7 @@ const showResult = () => {
 
 window.onload = () => {
     processQuote() // displays quote when window is loaded
+    inputQuote.disabled = false;
     document.querySelector(".wpm").style.display="none"; // hides wpm when page is loaded
 }
 

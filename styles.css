@@ -40,3 +40,10 @@ body {
     font-size: 18px;
 }
 
+.correct{
+    background-color: #84f087;
+}
+
+.incorrect{
+    background-color: #f77777;
+}

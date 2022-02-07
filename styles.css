@@ -47,3 +47,8 @@ body {
 .incorrect{
     background-color: #f77777;
 }
+
+.navbar{
+    position: static;
+    padding-bottom: 50rem;
+}

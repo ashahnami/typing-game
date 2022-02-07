@@ -15,6 +15,11 @@
 </head>
 <body>
 
+    <div class="navbar">
+        <button class="register" href="">Register</button>
+        <button class="login" href="">Log in</button>
+    </div>
+
     <div class="container">
         <div class="showQuote" id="showQuote"></div> <!-- creates element which displays the quote -->
         <textarea class="inputQuote" id="inputQuote"></textarea> <!-- creates area where quote can be typed out -->

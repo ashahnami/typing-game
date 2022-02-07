@@ -82,6 +82,7 @@ const showResult = () => {
 window.onload = () => {
     processQuote() // displays quote when window is loaded
     inputQuote.disabled = false;
+    inputQuote.value="";
     document.querySelector(".wpm").style.display="none"; // hides wpm when page is loaded
 }
 

@@ -1,8 +1,9 @@
-const apiUrl = "https://api.quotable.io/random?minLength=70&maxLength=110"; // link to the random quote API
+const apiUrl = "https://api.quotable.io/random?minLength=150&maxLength=200"; // link to the random quote API
 const showQuote = document.getElementById('showQuote'); // holds HTML element which displays the quote
 const inputQuote = document.getElementById('inputQuote');
 let quote="";
 let i=0;
+let index = mistakes=0;
 
 function getQuote(){
     return fetch(apiUrl) // makes HTTP request to the API URL
@@ -19,36 +20,68 @@ async function processQuote(){
     showQuote.innerHTML+=arr.join(''); // joins the array elements together to form the quote
 }
 
-inputQuote.addEventListener('input', () => { // detects if key is pressed inside the input box
-    let quoteChars = document.querySelectorAll('.quoteCharacters');
-    quoteChars=Array.from(quoteChars);
-    let userInputChars = inputQuote.value.split(''); // creates an array of the inputted characters
-
-    quoteChars.forEach((char,i) => { // iterates through each character in the quote
-        if(char.innerText == userInputChars[i]){char.classList.add('correct');} // if user enters the correct character
-        else if(userInputChars[i]==null){ // if user has not entered anything
-            if(char.classList.contains('correct')){char.classList.remove('correct')} // adds green colour to character
-            else{char.classList.remove('incorrect')}
+inputQuote.addEventListener('input', () => {
+    let characters = document.querySelectorAll('.quoteCharacters');
+    let typedChar = inputQuote.value.split('')[index];
+    if(typedChar==null){
+        if(index > 0){
+            index--;
         }
-        else{ // if user enters the incorrect character
-            if(!char.classList.contains('incorrect')){ 
-                char.classList.add('incorrect') // adds red colour if the character is wrong and not already coloured
-            }
+        if(characters[index].classList.contains('incorrect')){
+            mistakes--;
         }
-    });
+        characters[index].classList.remove('correct', 'incorrect');
+    } else {
+        if(characters[index].innerText == typedChar) {
+            characters[index].classList.add("correct");
+        } else {
+            mistakes++;
+            characters[index].classList.add("incorrect");
+        }
+        index++;
+    }
 });
+
+
 
 var lastentry = "";
 
 $('#inputQuote').one("keyup",function(event) { // detects key input only once
     if($('#inputQuote').val() != lastentry) { // checks whether value of input box has changed
         console.log('this should only output once')
-        // begin timer functions
+        decreaseTime();
     }
-    lastentry = $('#inputQuote').val()
+    lastentry = $('#inputQuote').val();
 });
 
-processQuote()
+
+
+
+const decreaseTime = () => {
+    time = 15; // set starting time
+    timer = setInterval(() => {
+        if(time==0){
+            showResult(); // show score if time remaining = 0
+        }else{
+            document.getElementById('timer').innerText = --time; // decrement time remaining by 1
+        }
+    }, 1000);
+}
+
+
+
+const showResult = () => {
+    document.querySelector(".wpm").style.display="block"; // displays score element
+    clearInterval(timer) // stop the time from decreasing
+    document.getElementById('wpm').innerText = ((index-mistakes)/5*4).toFixed(2) + "wpm"; // calculate wpm and display score on screen
+}
+
+
+
+window.onload = () => {
+    processQuote() // displays quote when window is loaded
+    document.querySelector(".wpm").style.display="none"; // hides wpm when page is loaded
+}
 
 
 
@@ -58,6 +91,46 @@ processQuote()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// inputQuote.addEventListener('input', () => { // detects if key is pressed inside the input box
+//     let quoteChars = document.querySelectorAll('.quoteCharacters');
+//     quoteChars=Array.from(quoteChars);
+//     let userInputChars = inputQuote.value.split(''); // creates an array of the inputted characters
+
+//     quoteChars.forEach((char,i) => { // iterates through each character in the quote
+//         if(char.innerText == userInputChars[i])  // if user enters the correct character
+//         {
+//             char.classList.add('correct');
+//         }
+//         else if(userInputChars[i]==null)  // if user has not entered anything
+//         {
+//             if(char.classList.contains('correct'))
+//             {
+//                 char.classList.remove('correct')
+//             } // adds green colour to character
+//             else
+//             {
+//                 char.classList.remove('incorrect')
+//             }
+//         }
+//         else{ // if user enters the incorrect character
+//             if(!char.classList.contains('incorrect')){ 
+//                 char.classList.add('incorrect') // adds red colour if the character is wrong and not already coloured
+//             }
+//         }
+//     });
+// });
 
 
 
@@ -71,20 +144,6 @@ processQuote()
 //     });
 //     showQuote.innerHTML+=arr.join('');
 // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

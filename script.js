@@ -19,14 +19,12 @@ async function processQuote(){
     showQuote.innerHTML+=arr.join(''); // joins the array elements together to form the quote
 }
 
-
-
 inputQuote.addEventListener('input', () => { // detects if key is pressed inside the input box
     let quoteChars = document.querySelectorAll('.quoteCharacters');
     quoteChars=Array.from(quoteChars);
     let userInputChars = inputQuote.value.split(''); // creates an array of the inputted characters
 
-    quoteChars.forEach((char,i) => {
+    quoteChars.forEach((char,i) => { // iterates through each character in the quote
         if(char.innerText == userInputChars[i]){char.classList.add('correct');} // if user enters the correct character
         else if(userInputChars[i]==null){ // if user has not entered anything
             if(char.classList.contains('correct')){char.classList.remove('correct')} // adds green colour to character
@@ -40,11 +38,17 @@ inputQuote.addEventListener('input', () => { // detects if key is pressed inside
     });
 });
 
+var lastentry = "";
 
-
+$('#inputQuote').one("keyup",function(event) { // detects key input only once
+    if($('#inputQuote').val() != lastentry) { // checks whether value of input box has changed
+        console.log('this should only output once')
+        // begin timer functions
+    }
+    lastentry = $('#inputQuote').val()
+});
 
 processQuote()
-
 
 
 

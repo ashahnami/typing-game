@@ -6,8 +6,7 @@ $fname = $_POST['fname'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-echo($fname, $username, $password);
-
+echo('test');
 
 ?>
 

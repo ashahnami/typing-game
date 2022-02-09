@@ -14,7 +14,7 @@ $s = " SELECT * FROM Users WHERE UserName = '$username'";
 if($num==1){
     echo "Username already taken";
 }else{
-    echo "Account created"
+    echo "Account created";
 }
 
 ?>

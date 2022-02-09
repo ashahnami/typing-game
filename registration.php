@@ -26,10 +26,13 @@ if($num_of_rows>0){
 
     // encrypts the password using the sha-256 algorithm
     $hashed_password = hash('sha256', $pw);
-
+    
     // inserts the user's details into the database
-    $register = "INSERT INTO users(FirstName,UserName,PasswordHash) VALUES('$first_name','$un','$hashed_password');
-
+    $register = "INSERT INTO users(FirstName,UserName,PasswordHash) VALUES('$first_name','$un','$hashed_password')";
+    
+    // executes the above query
+    mysqli_query($connection, $register);
+    
 }
 
 ?>

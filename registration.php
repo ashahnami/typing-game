@@ -11,9 +11,6 @@ $first_name = $_POST['fname'];
 $un = $_POST['username'];
 $pw = $_POST['password'];
 
-$hashed_password = hash('sha256', $pw);
-echo $hashed_password;
-
 // selects rows with same username as the entered username
 $s = " SELECT * FROM users WHERE UserName = '$un'";
 
@@ -25,8 +22,14 @@ $num_of_rows = mysqli_num_rows($result);
 // checks whether an account with such username already exists
 if($num_of_rows>0){
     echo "Username already taken";
-}else{
-    echo "Account created";
+}else{ 
+
+    // encrypts the password using the sha-256 algorithm
+    $hashed_password = hash('sha256', $pw);
+
+    // inserts the user's details into the database
+    $register = "INSERT INTO users(FirstName,UserName,PasswordHash) VALUES('$first_name','$un','$hashed_password');
+
 }
 
 ?>

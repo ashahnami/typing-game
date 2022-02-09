@@ -11,6 +11,10 @@ $pw = $_POST['password'];
 // selects rows with same username as the entered username
 $s = " SELECT * FROM Users WHERE UserName = '$un'";
 
+$result = mysqli_query($con, $s)
+
+$num = mysqli_num_rows($result);
+
 // checks whether an account with such username already exists
 if($num>0){
     echo "Username already taken";

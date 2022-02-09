@@ -11,6 +11,10 @@ $first_name = $_POST['fname'];
 $un = $_POST['username'];
 $pw = $_POST['password'];
 
+$key = 'The quick brown fox jumps over the lazy dog';
+$hashed_password = hash_hmac('sha256', $pw, $key);
+echo $hashed_password;
+
 // selects rows with same username as the entered username
 $s = " SELECT * FROM users WHERE UserName = '$un'";
 

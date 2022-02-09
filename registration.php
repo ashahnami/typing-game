@@ -11,6 +11,7 @@ $first_name = $_POST['fname'];
 $un = $_POST['username'];
 $pw = $_POST['password'];
 
+
 // selects rows with same username as the entered username
 $s = " SELECT * FROM users WHERE UserName = '$un'";
 

@@ -13,13 +13,15 @@
         <form method="post"> 
 
             <!-- first name field  -->
-            <input type="text" name="fname" placeholder="First name" required>
+            <input type="text" name="fname" placeholder="First name" pattern="[A-Za-z]{1,20}" 
+                title="First name must be at least 1 character long and only consist of letters" required>
 
             <!-- username field -->
-            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="username" placeholder="Username" minLength='5' maxLength='20' required>
 
             <!-- password field -->
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 
+                title="Password must contain be at least 7 characters long and one uppercase and lower letter" required>
             
             <input type="submit" value="Register"> <!-- creates submit button -->
         </form>

@@ -13,6 +13,8 @@
     if($connection->connect_error){
         die("connection failed");
     }
-    echo "connection successful";
 
 ?>
+
+
+

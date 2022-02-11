@@ -26,8 +26,7 @@ session_start() // starts a session
             
         }
 
-    }
-    
+    }  
 ?>
 
 <!DOCTYPE html>

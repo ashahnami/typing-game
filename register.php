@@ -1,8 +1,10 @@
 <?php
-session_start()
+session_start() // starts a session
 
+    // includes the connection details
     include("connection.php");
 
+    // checks whether something has been posted
     if($_SERVER['REQUEST_METHOD']=="POST")
     {
 
@@ -19,7 +21,9 @@ session_start()
         if($num_of_rows>0){
             echo "Username already taken. Please retry";
         }else{
-            echo "Valid username"
+            echo "Valid username";
+            // adding details to database code goes here
+            
         }
 
     }

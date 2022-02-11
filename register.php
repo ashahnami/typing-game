@@ -1,5 +1,29 @@
 <?php
-    // form is processed here
+session_start()
+
+    include("connection.php");
+
+    if($_SERVER['REQUEST_METHOD']=="POST")
+    {
+
+        // retrieves the posted variables
+        $fname = $_POST['fname'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // checks if username is taken
+        $s = "SELECT * FROM users WHERE UserName = '$username'";
+        $result = mysqli_query($connection, $s);
+        $num_of_rows = mysqli_num_rows($result);
+
+        if($num_of_rows>0){
+            echo "Username already taken. Please retry";
+        }else{
+            echo "Valid username"
+        }
+
+    }
+    
 ?>
 
 <!DOCTYPE html>

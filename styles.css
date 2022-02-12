@@ -1,5 +1,5 @@
 * {
-    margin: 0; /* page cannot be vertically scrolled */
+    margin: 500; /* page cannot be vertically scrolled */
     box-sizing: border-box; 
     font-family: JetBrains Mono; /* sets all font families to JetBrains Mono */
 }
@@ -45,10 +45,22 @@ body {
 }
 
 .incorrect{
-    background-color: #f77777;
+    background-color: #F77777;
 }
 
 .navbar{
     position: static;
     padding-bottom: 50rem;
+}
+
+h1{
+    position: absolute;
+    padding-right: 29rem;
+    padding-bottom: 25rem;
+}
+
+h2{
+    position: absolute;
+    padding-right: 32rem;
+    padding-bottom: 20rem;
 }

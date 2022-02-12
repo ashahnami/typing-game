@@ -83,11 +83,12 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
             <!-- password field -->
             <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 
                 title="Password must contain be at least 7 characters long and one uppercase and lower letter" required>
-            
-                
+
             <input type="submit" value="Register"> <!-- creates submit button -->
         </form>
+
         <a href="login.php">Already have an account? Sign in here</a>
+        
     </div>
 </body>
 </html>

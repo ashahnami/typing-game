@@ -43,22 +43,21 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
         <a href="signout.php"><button class="signout">Sign out</button></a> <!-- creates sign out button -->
     </div>
 
+    <div class="parent">
+        <h1>Welcome <?php echo $userdata['FirstName'];?>!</h1>
+        <h2>Highscore: <?php echo $userdata['HighScore'];?></h2>
 
-
-    <h1>Welcome <?php echo $userdata['FirstName'];?>!</h1>
-    <h2>Highscore: <?php echo $userdata['HighScore'];?></h2>
-
-
-
-    <div class="container">
-        <div class="showQuote" id="showQuote"></div> <!-- creates element which displays the quote -->
-        <textarea class="inputQuote" id="inputQuote"></textarea> <!-- creates area where quote can be typed out -->
-    </div>
-
-    <div class="results">
         <div class="timer" id="timer">15</div> <!-- creates timer element -->
         <div class="wpm" id="wpm"></div> <!-- creates typing speed element -->
+
+        <div class="container">
+            <div class="showQuote" id="showQuote"></div> <!-- creates element which displays the quote -->
+            <textarea class="inputQuote" id="inputQuote"></textarea> <!-- creates area where quote can be typed out -->
+        </div>
+
     </div>
+
+    
 
 </body>
 </html>

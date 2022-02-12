@@ -37,6 +37,37 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
 <head>
     <title>Register</title>
 
+    <style>
+
+        *{
+            margin: 0;
+            box-sizing: border-box;
+            font-family: JetBrains Mono; /* sets page font */
+        }
+
+        body{
+            display: flex;
+            align-items: center; /* aligns items towards the center */
+            justify-content: center;
+            background-color: #D3D3D3; /* sets background colour */
+            min-height: 80vh;
+        }
+
+        .container{
+            background-color: #FFFFFF; /* sets background colour of box */
+            padding: 2rem; /* creates padding around box */
+            border-radius: 0.3rem; /* curves edges of box */
+            width: 400px; /* sets box width */
+            max-width: 90%; /* sets maximum width of box */
+            box-shadow: 0 10px 20px rgba(0,0,0,.13); /* creates shadow around box */
+        }
+
+        a{
+            font-size:14px; /* sets hyperlink font size */
+        }
+
+    </style>
+
 </head>
 <body>
     <div class="container">
@@ -53,8 +84,10 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
             <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 
                 title="Password must contain be at least 7 characters long and one uppercase and lower letter" required>
             
+                
             <input type="submit" value="Register"> <!-- creates submit button -->
         </form>
+        <a href="login.php">Already have an account? Sign in here</a>
     </div>
 </body>
 </html>

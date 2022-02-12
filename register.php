@@ -24,6 +24,9 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
         $register = "INSERT INTO users(FirstName,UserName,PasswordHash) VALUES('$fname','$username','$password_hash')";
 
         mysqli_query($connection,$register); // executes the above query 
+
+        header("location: login.php"); // redirects to login page
+        die;
         
     }
 }

@@ -40,7 +40,7 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
 <body>
 
     <div class="navbar">
-        <a href="login.php"><button class="signout">Sign out</button></a> <!-- creates sign out button -->
+        <a href="signout.php"><button class="signout">Sign out</button></a> <!-- creates sign out button -->
     </div>
 
     <div class="container">

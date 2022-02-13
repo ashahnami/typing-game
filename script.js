@@ -48,7 +48,6 @@ var lastentry = "";
 
 $('#inputQuote').one("keyup",function(event) { // detects key input only once
     if($('#inputQuote').val() != lastentry) { // checks whether value of input box has changed
-        console.log('this should only output once')
         decreaseTime();
     }
     lastentry = $('#inputQuote').val();
@@ -75,6 +74,18 @@ const showResult = () => {
     clearInterval(timer) // stop the time from decreasing
     var wpm = ((index-mistakes)/5*4).toFixed(2);
     document.getElementById('wpm').innerText = wpm + "wpm"; // calculate wpm and display score on screen
+    
+
+    // NEW CODE
+    const xhr = new XMLHttpRequest(); // creates XML HTTP request object
+
+    xhr.onload = function(){ // states what happens when the request is successful
+        console.log('successful');
+    };
+
+    xhr.open("POST", "highscore.php"); // opens HTTP request
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("wpm="+wpm); // sends the typing speed
 
 }
 
@@ -86,13 +97,6 @@ window.onload = () => {
     inputQuote.value="";
     document.querySelector(".wpm").style.display="none"; // hides wpm when page is loaded
 }
-
-
-
-
-
-
-
 
 
 

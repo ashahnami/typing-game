@@ -16,7 +16,10 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
     $highscore = mysqli_fetch_assoc($result); // stores the row in array form
 
     if($wpm > $highscore){
-        // replace database highscore with current one
+
+        $sql = "UPDATE Users SET HighScore='$wpm' WHERE UserID = '$id'"; // replaces the user's previous highscore with their new score
+        mysqli_query($connection, $sql); // executes the above query
+
     };
 
 }else{

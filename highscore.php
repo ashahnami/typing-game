@@ -1,30 +1,27 @@
 <?php
 
-$wpm = $_POST['wpm'];
-echo $wpm;
+session_start(); // starts the user's session
 
-?>
+require "connection.php"; // includes the database connection
 
+$wpm = $_POST['wpm']; // retrieves the latest achieved typing speed
 
+if(isset($_SESSION['userID'])) // checks if the userID session variable is set
+{
 
+    $id = $_SESSION['userID']; // copies userID session variable to id
 
-<!-- php
+    $query = "SELECT * FROM Users WHERE UserID = '$id'"; // query to retrieve the user's row from the database
+    $result = mysqli_query($connection,$query); // executes the above query
+    $highscore = mysqli_fetch_assoc($result); // stores the row in array form
 
-session_start();
+    if($wpm > $highscore){
+        // replace database highscore with current one
+    };
 
-$id = $_SESSION['userID'];
-
-require 'connection.php';
-
-$wpm=$_POST['wpm'];
-$sql = "INSERT INTO Users('HighScore') VALUES ('$wpm') WHERE UserID = '$id'";
-
-if (mysqli_query($connection, $sql)) {
-    echo json_encode(array("statusCode"=>200));
-} 
-else {
-    echo json_encode(array("statusCode"=>201));
+}else{
+    header("location: login.php"); // redirects to login page
+    die;
 }
-mysqli_close($connection);
 
-  -->
+

@@ -55,6 +55,10 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
             <textarea class="inputQuote" id="inputQuote"></textarea> <!-- creates area where quote can be typed out -->
         </div>
 
+
+        <a href="leaderboard.php"><img src="https://cdn-icons.flaticon.com/png/512/3567/premium/3567946.png?token=exp=1644778633~hmac=74b2d13f169a56029be6c4cce0ac410f"
+            style="width:50px"></a>
+
     </div>
 
     

@@ -56,8 +56,8 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
         </div>
 
 
-        <a href="leaderboard.php"><img src="https://cdn-icons.flaticon.com/png/512/3567/premium/3567946.png?token=exp=1644778633~hmac=74b2d13f169a56029be6c4cce0ac410f"
-            style="width:50px"></a>
+        <a href="leaderboard.php"><img src="leaderboard-icon.png"
+            style="width:40px;padding-top:10px"></a>
 
     </div>
 

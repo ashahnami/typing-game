@@ -8,7 +8,7 @@ body {
     display: flex;
     align-items: center; /* aligns items towards the center */
     justify-content: center;
-    background-color: #D3D3D3; /* sets background colour */
+    background-color: #D3D3D3; sets background colour
     min-height: 80vh; /* moves elements downwards towards center */
 }
 
@@ -65,3 +65,22 @@ body {
     font-size: 28px;
 }
 
+
+/* custom login and register page styling */
+.container2{
+    background-color: #FFFFFF; /* sets background colour of box */
+            padding: 2rem; /* creates padding around box */
+            border-radius: 0.3rem; /* curves edges of box */
+            width: 400px; /* sets box width */
+            max-width: 90%; /* sets maximum width of box */
+            box-shadow: 0 10px 20px rgba(0,0,0,.13); /* creates shadow around box */
+}
+
+a{
+    font-size:14px; /* sets hyperlink font size */
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+}

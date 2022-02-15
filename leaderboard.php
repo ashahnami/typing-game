@@ -7,7 +7,7 @@
 
         body{
             background-color: #D3D3D3;
-
+            font-family: JetBrains Mono;
         }
 
         table{
@@ -27,10 +27,19 @@
             padding-bottom: 2rem;
         }
 
+        .navbar{
+            position: static;
+            padding-left: 20rem;
+        }
+
     </style>
 
 </head>
 <body>
+
+    <div class="navbar">
+        <a href="index.php">Return home</button></a> <!-- link to return to home page -->
+    </div>
 
     <table> <!-- creates table with two columns -->
         <tr>

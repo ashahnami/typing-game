@@ -29,7 +29,7 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 
-    <link rel="stylesheet" href="styles.css"> <!-- links external style sheet file -->
+    <link rel="stylesheet" href="styles.php"> <!-- links external style sheet file -->
     <script src="script.js" defer></script> <!-- links external script file -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

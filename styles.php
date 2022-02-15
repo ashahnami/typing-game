@@ -1,3 +1,7 @@
+<?php
+header("Content-type: text/css");
+?>
+
 * {
     margin: 0; /* page cannot be vertically scrolled */
     box-sizing: border-box; 
@@ -8,7 +12,7 @@ body {
     display: flex;
     align-items: center; /* aligns items towards the center */
     justify-content: center;
-    background-color: #D3D3D3; sets background colour
+    background-color: #D3D3D3; /* sets background colour */
     min-height: 80vh; /* moves elements downwards towards center */
 }
 
@@ -78,9 +82,4 @@ body {
 
 a{
     font-size:14px; /* sets hyperlink font size */
-}
-
-.dark-mode {
-    background-color: black;
-    color: white;
 }

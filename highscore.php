@@ -12,7 +12,7 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
     $id = $_SESSION['userID']; // copies userID session variable to i
     $query = "SELECT * FROM Users WHERE UserID = '$id'"; // query to retrieve the user's row from the database
     $result = mysqli_query($connection,$query); // executes the above query
-    $highscore = mysqli_fetch_assoc($result)['HighScore']; // stores the row in array form
+    $highscore = mysqli_fetch_assoc($result)['HighScore']; // holds the user's previous highscore
 
     if($wpm > $highscore)
         $update_query = "UPDATE Users SET HighScore='$wpm' WHERE UserID = '$id'"; // replaces the user's previous highscore with their new score
@@ -22,6 +22,5 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
     header("location: login.php"); // redirects to login page
     die;
 }
-
 
 ?>

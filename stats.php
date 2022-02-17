@@ -1,32 +1,65 @@
 <?php
-include("fusioncharts.php");
+   session_start();
+   require("connection.php");
+   include("fusioncharts.php");
 ?>
 
-<html>
-   <head>
-      <!-- FusionCharts Library -->
-      <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-   </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Stats</title>
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+</head>
 <body>
+
 <?php
-   $data = file_get_contents('test.json');
-   $schema = file_get_contents('https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/line-chart-with-time-axis-schema.json');
+   $id = $_SESSION['userID'];
+   // $query = "SELECT Date_d,Score FROM tests WHERE UserID ='$id'";
+   $query = "SELECT Date_d,Score FROM tests";
+
+
+   $result = mysqli_query($connection, $query);
+
+   $datas = array();
+
+   if(mysqli_num_rows($result) > 0){
+      while($row = mysqli_fetch_assoc($result)){
+         $datas[] = $row;
+      }
+   }
+
+   $b = array();
+
+   foreach($datas as $a){
+      $test = array();
+      array_push($test, $a['Date_d'],floatval($a['Score']));
+      array_push($b, $test);
+   }
+
+   // print_r(json_encode($b));
+   // file_put_contents('stats.json',json_encode($b));
+
+
+
+
+   $data = file_get_contents('stats.json');
+   $schema = file_get_contents('schema.json');
 
    $fusionTable = new FusionTable($schema, $data);
    $timeSeries = new TimeSeries($fusionTable);
 
    $timeSeries->AddAttribute('chart', '{}');
-   $timeSeries->AddAttribute('caption', '{"text":"Sales Analysis"}');
-   $timeSeries->AddAttribute('subcaption', '{"text":"Grocery"}');
-   $timeSeries->AddAttribute('yaxis', '[{"plot":{"value":"Grocery Sales Value"},"format":{"prefix":"$"},"title":"Sale Value"}]');
+   $timeSeries->AddAttribute('caption', '{"text":"WPM"}');
+   $timeSeries->AddAttribute('subcaption', '{"text":"Average WPM per day"}');
+   $timeSeries->AddAttribute('yaxis', '[{"plot":{"value":"WPM"},"title":"WPM"}]');
    
 
    // chart object
    $Chart = new FusionCharts(
       "timeseries",
       "MyFirstChart" ,
+      "1000",
       "700",
-      "450",
       "chart-container",
       "json",
       $timeSeries
@@ -34,8 +67,10 @@ include("fusioncharts.php");
 
    // Render the chart
    $Chart->render();
+
 ?>
 
    <div id="chart-container">Chart will render here!</div>
+   
 </body>
 </html>

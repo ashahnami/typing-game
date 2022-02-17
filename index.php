@@ -58,6 +58,8 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
 
         <a href="leaderboard.php"><img src="leaderboard-icon.png" style="width:40px;padding-top:10px"></a>
 
+        <a href="stats.php"><img src="stats-icon.png" style="width:40px;padding-top:10px"></a>
+
     </div>
 
     

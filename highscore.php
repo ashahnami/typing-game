@@ -10,10 +10,10 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
 {
     $id = $_SESSION['userID']; // copies userID session variable to id
 
-
     $date = date("d-M-y"); // gets current date
 
-    $insert_query = "INSERT INTO tests(Date_d,Score,UserID) VALUES('$date','$wpm','$id')";
+    $insert_query = "INSERT INTO tests(Date_d,Score,UserID) VALUES('$date','$wpm','$id')"; // query to insert into table
+    mysqli_query($connection,$insert_query); // executes the above query
 
     $query = "SELECT * FROM Users WHERE UserID = '$id'"; // query to retrieve the user's row from the database
     $result = mysqli_query($connection,$query); // executes the above query

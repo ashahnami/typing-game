@@ -9,6 +9,26 @@
 <head>
    <title>Stats</title>
    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+   
+   <style>
+
+      * {
+         margin: 0; /* page cannot be vertically scrolled */
+         box-sizing: border-box; 
+         font-family: JetBrains Mono; /* sets all font families to JetBrains Mono */
+      }
+
+      body{
+         display: flex;
+         align-items: center; /* aligns items towards the center */
+         justify-content: center;
+         background-color: #D3D3D3; /* sets background colour */
+         min-height: 80vh; /* moves elements downwards towards center */
+      }
+
+   </style>
+
+
 </head>
 <body>
 
@@ -70,7 +90,9 @@
 
 ?>
 
-   <div id="chart-container">Chart will render here!</div>
    
+      
+   <div id="chart-container">Chart will render here!</div>
+
 </body>
 </html>

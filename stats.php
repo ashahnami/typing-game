@@ -26,6 +26,15 @@
          min-height: 80vh; /* moves elements downwards towards center */
       }
 
+      .navbar{
+         position: static;
+         padding-bottom: 50rem;
+      }
+
+      a{
+         font-size:18px; /* sets hyperlink font size */
+      }
+
    </style>
 
 
@@ -90,7 +99,9 @@
 
 ?>
 
-   
+   <div class="navbar">
+        <a href="index.php">Return home</button></a> <!-- link to return to home page -->
+    </div>
       
    <div id="chart-container">Chart will render here!</div>
 

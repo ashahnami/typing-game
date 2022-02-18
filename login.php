@@ -41,6 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") // checks if something has been posted
     <link rel="stylesheet" href="styles.css"> <!-- link stylesheet -->
 </head>
 <body>
+    <h1 style="position:relative; bottom: 10rem; left: 8rem;">Sign in</h1>
     <div class="container2">
         <form method="post"> <!-- creates login form -->
 

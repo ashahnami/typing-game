@@ -42,9 +42,10 @@
 <body>
 
 <?php
-   $id = $_SESSION['userID'];
-   // $query = "SELECT Date_d,Score FROM tests WHERE UserID ='$id'";
-   $query = "SELECT Date_d,Score FROM tests";
+   $id = $_SESSION['userID']; // retrieves the current user's userID
+   
+   $query = "SELECT Date_d,Score FROM tests WHERE UserID ='$id'";
+   // $query = "SELECT Date_d,Score FROM tests";
 
 
    $result = mysqli_query($connection, $query);
@@ -65,13 +66,19 @@
       array_push($b, $test);
    }
 
-   // print_r(json_encode($b));
-   // file_put_contents('stats.json',json_encode($b));
 
 
 
+   
+   print_r(json_encode($b));
+   file_put_contents('stats.json',json_encode($b));
 
-   $data = file_get_contents('stats.json');
+
+
+   $data = json_encode($b);
+
+
+   // $data = file_get_contents('stats.json');
    $schema = file_get_contents('schema.json');
 
    $fusionTable = new FusionTable($schema, $data);

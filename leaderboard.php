@@ -39,6 +39,7 @@
 
     <div class="navbar">
         <a href="index.php">Return home</button></a> <!-- link to return to home page -->
+        <h1>Leaderboard</h1>
     </div>
 
     <table> <!-- creates table with two columns -->

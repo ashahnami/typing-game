@@ -26,8 +26,8 @@
          min-height: 80vh; /* moves elements downwards towards center */
       }
 
-      .navbar{
-         position: static;
+      .navbar{ 
+         position: static; /* positions the return button */
          padding-bottom: 50rem;
       }
 
@@ -35,22 +35,21 @@
          font-size:18px; /* sets hyperlink font size */
       }
 
+
    </style>
 
 
 </head>
 <body>
 
+
 <?php
    $id = $_SESSION['userID']; // retrieves the current user's userID
    
    $query = "SELECT Date_d,Score FROM tests WHERE UserID ='$id'";
-   // $query = "SELECT Date_d,Score FROM tests";
-
-
    $result = mysqli_query($connection, $query);
 
-   $datas = array();
+   $datas = array(); // creates an empty array
 
    if(mysqli_num_rows($result) > 0){
       while($row = mysqli_fetch_assoc($result)){
@@ -58,59 +57,58 @@
       }
    }
 
-   $b = array();
+   $b = array(); // creates an empty array
 
-   foreach($datas as $a){
-      $test = array();
-      array_push($test, $a['Date_d'],floatval($a['Score']));
-      array_push($b, $test);
+   foreach($datas as $a){ // iterates through the array
+      $c = array(); // creates an empty array
+      array_push($c, $a['Date_d'],floatval($a['Score'])); // adds the two values to an array
+      array_push($b, $c); // adds this array into another array
    }
-
-
-
-
-   
-   print_r(json_encode($b));
-   file_put_contents('stats.json',json_encode($b));
 
 
 
    $data = json_encode($b);
 
 
-   // $data = file_get_contents('stats.json');
    $schema = file_get_contents('schema.json');
+
+
 
    $fusionTable = new FusionTable($schema, $data);
    $timeSeries = new TimeSeries($fusionTable);
 
    $timeSeries->AddAttribute('chart', '{}');
-   $timeSeries->AddAttribute('caption', '{"text":"WPM"}');
-   $timeSeries->AddAttribute('subcaption', '{"text":"Average WPM per day"}');
-   $timeSeries->AddAttribute('yaxis', '[{"plot":{"value":"WPM"},"title":"WPM"}]');
+   $timeSeries->AddAttribute('caption', '{"text":"WPM"}'); // sets the caption of the graph
+   $timeSeries->AddAttribute('subcaption', '{"text":"Average WPM per day"}'); // sets the subcaption of the graph
+   $timeSeries->AddAttribute('yaxis', '[{"plot":{"value":"WPM"},"title":"WPM"}]'); // sets the y-axis label
    
 
-   // chart object
-   $Chart = new FusionCharts(
+
+
+
+   $Chart = new FusionCharts( // creates a chart object
       "timeseries",
-      "MyFirstChart" ,
-      "1000",
-      "700",
-      "chart-container",
+      "WPM CHART" ,
+      "1000", // width
+      "700", // height
+      "chart",
       "json",
       $timeSeries
    );
 
-   // Render the chart
-   $Chart->render();
+
+
+
+   $Chart->render(); // renders the chart
 
 ?>
 
    <div class="navbar">
-        <a href="index.php">Return home</button></a> <!-- link to return to home page -->
+      <a href="index.php">Return home</button></a> <!-- link to return to home page -->
+      <h1>Statistics</h1> <!-- adds heading to page --> 
     </div>
       
-   <div id="chart-container">Chart will render here!</div>
+   <div id="chart">WPM chart</div>
 
 </body>
 </html>

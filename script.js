@@ -90,79 +90,9 @@ const showResult = () => {
 }
 
 
-
 window.onload = () => {
     processQuote() // displays quote when window is loaded
     inputQuote.disabled = false;
     inputQuote.value="";
     document.querySelector(".wpm").style.display="none"; // hides wpm when page is loaded
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// inputQuote.addEventListener('input', () => { // detects if key is pressed inside the input box
-//     let quoteChars = document.querySelectorAll('.quoteCharacters');
-//     quoteChars=Array.from(quoteChars);
-//     let userInputChars = inputQuote.value.split(''); // creates an array of the inputted characters
-
-//     quoteChars.forEach((char,i) => { // iterates through each character in the quote
-//         if(char.innerText == userInputChars[i])  // if user enters the correct character
-//         {
-//             char.classList.add('correct');
-//         }
-//         else if(userInputChars[i]==null)  // if user has not entered anything
-//         {
-//             if(char.classList.contains('correct'))
-//             {
-//                 char.classList.remove('correct')
-//             } // adds green colour to character
-//             else
-//             {
-//                 char.classList.remove('incorrect')
-//             }
-//         }
-//         else{ // if user enters the incorrect character
-//             if(!char.classList.contains('incorrect')){ 
-//                 char.classList.add('incorrect') // adds red colour if the character is wrong and not already coloured
-//             }
-//         }
-//     });
-// });
-
-
-
-
-// const processQuote = async () => {
-//     const response = await fetch(apiUrl);
-//     let data = await response.json();
-//     quote=data.content;
-//     let arr=quote.split('').map(value => {
-//         return "<span class='quoteCharacters'>"+ value + "</span>";
-//     });
-//     showQuote.innerHTML+=arr.join('');
-// };
-
-
-
-
-// BACKUP QUOTE RENDERER
-// const processQuote = async () => {
-//     const response = await fetch(apiUrl);
-//     let data = await response.json();
-//     quote=data.content;
-//     let arr=quote.split('').map(value => {
-//         return "<span class='quote-chars'>"+ value + "</span>";
-//     });
-//     quoteSection.innerHTML+=arr.join('');
-// };

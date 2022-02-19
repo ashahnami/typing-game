@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") // checks if something has been posted
         echo "Incorrect login details";
     }
 
-}
+
 
 ?>
 

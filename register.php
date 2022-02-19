@@ -39,6 +39,8 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
     <link rel="stylesheet" href="styles.css"> <!-- link stylesheet -->
 </head>
 <body>
+
+    <h1 style="position:relative; bottom: 10rem; left: 10rem;">Register</h1>
     <div class="container2">
         <form method="post"> 
 

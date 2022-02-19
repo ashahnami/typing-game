@@ -49,7 +49,8 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
                 title="First name must be at least 1 character long and only consist of letters" required>
 
             <!-- username field -->
-            <input type="text" name="username" placeholder="Username" minLength='5' maxLength='20' required>
+            <input type="text" name="username" placeholder="Username" pattern="[A-Za-z]{5,25}" 
+                title="Username must contain be at least 5 characters long without any spaces" required>
 
             <!-- password field -->
             <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 

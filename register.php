@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
 </head>
 <body>
 
-    <h1 style="position:relative; bottom: 10rem; left: 10rem;">Register</h1>
+    <h1 style="position:relative; bottom: 7rem; left: 10rem;">Register</h1>
     <div class="container2">
         <form method="post"> 
 

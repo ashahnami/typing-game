@@ -52,7 +52,7 @@ if(isset($_SESSION['userID'])) // checks if the userID session variable is set
 
         <div class="container">
             <div class="showQuote" id="showQuote"></div> <!-- creates element which displays the quote -->
-            <textarea class="inputQuote" id="inputQuote" onPaste="return false"></textarea> <!-- creates area where quote can be typed out -->
+            <textarea class="inputQuote" id="inputQuote"></textarea> <!-- creates area where quote can be typed out -->
         </div>
 
 

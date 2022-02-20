@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") // checks if something has been posted
     }else{
         echo "Incorrect login details";
     }
-
+}
 
 
 ?>
@@ -56,6 +56,3 @@ if($_SERVER['REQUEST_METHOD'] == "POST") // checks if something has been posted
     </div>
 </body>
 </html>
-
-
-

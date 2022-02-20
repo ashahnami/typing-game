@@ -37,6 +37,26 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
 <head>
     <title>Register</title>
     <link rel="stylesheet" href="styles.css"> <!-- link stylesheet -->
+
+
+    <script>
+        
+        function checkPasswords() {
+        var pw1 = document.getElementById("password").value;
+        var pw2 = document.getElementById("confirm_password").value;
+        if (pw1 != pw2) {           // checks whether passwords are identical
+            alert("Passwords do not match."); // shows alert box if the messages are not identical
+            return false;
+        }
+        return true;
+        }
+
+
+    </script>
+
+
+
+
 </head>
 <body>
 
@@ -53,10 +73,14 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
                 title="Username must be at least 5 characters long" required>
 
             <!-- password field -->
-            <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 
+            <input type="password" name="password" id="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 
                 title="Password must contain be at least 7 characters long and one uppercase and lower letter" required>
 
-            <input type="submit" value="Register"> <!-- creates submit button -->
+            <!-- confirm password field -->
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>
+            
+            <input type="submit" value="Register" onclick="return checkPasswords()"> <!-- creates submit button -->
+            
         </form>
 
         <a href="login.php">Already have an account? Sign in here</a>

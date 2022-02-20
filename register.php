@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") // checks whether something has been post
 
             <!-- username field -->
             <input type="text" name="username" placeholder="Username" pattern="[A-Za-z0-9]{5,25}" 
-                title="Username must contain be at least 5 characters long without any spaces" required>
+                title="Username must be at least 5 characters long" required>
 
             <!-- password field -->
             <input type="password" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{7,64}" 

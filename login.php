@@ -33,26 +33,3 @@ if($_SERVER['REQUEST_METHOD'] == "POST") // checks if something has been posted
 
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Log in</title>
-    <link rel="stylesheet" href="styles.css"> <!-- link stylesheet -->
-</head>
-<body>
-    <h1 style="position:relative; bottom: 6rem; left: 8rem;">Sign in</h1>
-    <div class="container2">
-        <form method="post"> <!-- creates login form -->
-
-            <input type="text" name="username" placeholder="Username"> <!-- creates username entry box -->
-            <input type="password" name="password" placeholder="Password"> <!-- creates password entry box -->
-            <input type="submit" value="Log in"> <!-- creates submit button -->
-
-        </form>
-
-        <a href="register.php">No account? Register here</a>
-
-    </div>
-</body>
-</html>

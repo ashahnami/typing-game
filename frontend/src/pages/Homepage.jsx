@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import '../assets/style.css'
 
 const Homepage = () => {
-    const logout = async () => {
-        await axios.post('/api/auth/logout', { withCredentials: true })
-        .then(function(response) {
-            console.log(response.status)
-            redirect('/login')
-        })
-    }
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+
+  const logout = async () => {
+      await axios.post('/api/auth/logout', { withCredentials: true })
+      .then(function(response) {
+          navigate('/login')
+      })
+  }
+
+  useEffect(() => {
+    axios.get('/api/users/')
+    .then(function(response) {
+      setUsername(response.data.username)
+    })
+  }, [])
+
   return (
     <div>
       <div className="navbar">
@@ -19,7 +29,7 @@ const Homepage = () => {
         </div>
 
         <div className="parent">
-            <h1>Welcome (first name)!</h1>
+            <h1>Welcome {username}!</h1>
 
             <h2>Highscore: (high score)</h2>
 

@@ -3,10 +3,11 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 import '../assets/style.css'
+import useAuth from '../hooks/useAuth'
 
 const Homepage = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const { user } = useAuth();
 
   const logout = async () => {
       await axios.post('/api/auth/logout', { withCredentials: true })
@@ -15,13 +16,6 @@ const Homepage = () => {
       })
   }
 
-  useEffect(() => {
-    axios.get('/api/users/')
-    .then(function(response) {
-      setUsername(response.data.username)
-    })
-  }, [])
-
   return (
     <div>
       <div className="navbar">
@@ -29,7 +23,7 @@ const Homepage = () => {
         </div>
 
         <div className="parent">
-            <h1>Welcome {username}!</h1>
+            <h1>Welcome {user.user}!</h1>
 
             <h2>Highscore: (high score)</h2>
 

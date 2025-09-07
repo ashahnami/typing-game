@@ -165,7 +165,7 @@ onMounted(async () => {
             <div ref="caretElement" class="caret"></div>
         </div>
 
-        <div @click="resetGame">restart</div>
+        <button @click="resetGame" class="restartButton">Restart</button>
     </div>
 
     <div v-if="gameState === GameState.FINISHED" class="results">
@@ -179,7 +179,7 @@ onMounted(async () => {
             <p class="score">{{ acc }}%</p>
         </div>
         
-        <div @click="resetGame">restart</div>
+        <button @click="resetGame" class="restartButton">Restart</button>
     </div>
 </template>
 
@@ -200,6 +200,7 @@ onMounted(async () => {
     flex-wrap: wrap;
     gap: 0.4em;
     font-size: 1.2rem;
+    letter-spacing: 0.05rem;
 }
 
 .input {
@@ -240,5 +241,14 @@ onMounted(async () => {
 
 .results .score {
     font-size: 4rem;
+}
+
+.restartButton {
+    font-size: 1.2rem;
+    padding: 0.6rem;
+}
+
+.restartButton:hover {
+    cursor: pointer;
 }
 </style>

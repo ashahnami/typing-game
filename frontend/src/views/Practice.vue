@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Layout from '@/components/Layout.vue';
-import MainMenu from '@/components/MainMenu.vue';
+import Game from '@/components/Game.vue'
 </script>
 
 <template>
   <Layout>
-    <MainMenu />
+    <Game />
   </Layout>
 </template>

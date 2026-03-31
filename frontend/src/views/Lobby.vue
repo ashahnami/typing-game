@@ -8,16 +8,26 @@ import RacersList from "@/components/RacersList.vue";
 const route = useRoute();
 const lobbyId = ref(route.query.lobbyId);
 const racers = ref<string[]>([]);
+const showModal = ref<boolean>(false);
 
 </script>
 
 <template>
-  Share this lobby ID with people you want to invite to the race: {{ lobbyId }}
+  <div @click="showModal = true" class="invite-button">Invite people</div>
+
+  <div class="modal-overlay" v-if="showModal">
+    <div>
+      Share this lobby ID with people you want to invite to the race:
+      <input :value=lobbyId readonly/>
+    </div>
+
+    <button @click="showModal = false">Close</button>
+  </div>
 
   <div class="lobby-layout">
     <div class="lobby-col-main">
       <div class="card">
-<!--        <Game />-->
+        <Game />
       </div>
 
       <div class="card">
@@ -56,5 +66,33 @@ const racers = ref<string[]>([]);
   padding: 16px;
   background-color: #fff;
   border-radius: 4px;
+}
+
+.invite-button {
+  width: 100px;
+}
+
+.invite-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  background-color: lightgrey;
+  border-radius: 8px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 98;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  height: 200px;
 }
 </style>

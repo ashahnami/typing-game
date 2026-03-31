@@ -41,6 +41,7 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
+  padding: 0.8rem 1rem;
 }
 
 nav a.router-link-exact-active {

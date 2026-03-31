@@ -1,71 +1,94 @@
 <script setup lang="ts">
+
 enum GameState {
     WAITING,
     IN_PROGRESS,
     FINISHED
 }
 
-import { ref, onMounted, type InputHTMLAttributes, useTemplateRef } from 'vue';
+enum LetterStatus {
+  REMAINING,
+  ERROR,
+  CORRECT,
+  SKIPPED
+}
+
+interface Part {
+  character: string;
+  state: LetterStatus;
+}
+
+import {ref, onMounted, useTemplateRef} from 'vue';
 import axios from 'axios';
 
-const gameState = ref<GameState>(GameState.WAITING);
 const words = ref<string[]>([]);
-const typedLetter = ref('');
-const wordIndex = ref(0);
+
+// Game State
+const position = ref<number>(0);
+const status = ref<Part[]>([]);
+
 const letterIndex = ref<number>(0);
+
+const gameState = ref<GameState>(GameState.WAITING);
+const typedLetter = ref('');
+const typedWord = ref<string>('');
 
 const time = ref(30);
 const wpm = ref(0);
 const acc = ref(0);
 const correctLetters = ref(0);
 
-const wordsElement = useTemplateRef<HTMLDivElement>('wordsElement');
-const letterElement = ref<HTMLSpanElement>();
 const inputElement = useTemplateRef<HTMLInputElement>('inputElement');
-const caretElement = useTemplateRef<HTMLDivElement>('caretElement');
-
-function updateGame(event: InputHTMLAttributes) {
-    if (letterIndex.value < words.value[wordIndex.value].length) {
-        letterElement.value = wordsElement.value?.children[wordIndex.value].children[letterIndex.value] as HTMLSpanElement;
-
-        if (typedLetter.value === words.value[wordIndex.value][letterIndex.value]) {
-            letterElement.value.className += 'correct'
-            correctLetters.value++;
-        } else {
-            letterElement.value.className += 'incorrect'
-        }
-
-        moveCaret();
-    }
-
-    letterIndex.value++;
-    typedLetter.value = '';
-}
 
 function keyPress(event: KeyboardEvent) {
-    if (event.code == 'Space') {
+    if (!isAlphaNumeric(event.key) && event.code != 'Space' && event.code != 'Backspace') {
         event.preventDefault();
-        nextWord();
+        return;
     }
 
     if (gameState.value === GameState.WAITING) {
-        startGame();
+      startGame();
+    }
+
+    if (event.code == 'Backspace') {
+        return;
+    }
+
+    console.log("key pressed: ", event.key);
+    handleLetter(event.key);
+}
+
+const handleLetter = (key: string) => {
+    if (isValidInput(key)) {
+      const current = getCurrent()
+      if (getCurrent().character === key) {
+        current.state = LetterStatus.CORRECT;
+        position.value++;
+
+      } else if (key === ' ') {
+        let newPos = position.value;
+        if (position.value > 0 && status.value[position.value - 1].character !== ' ') {
+          while (newPos < status.value.length && status.value[newPos].character !== ' ') {
+            status.value[newPos].state = LetterStatus.SKIPPED;
+            newPos++;
+          }
+        }
+        position.value = newPos
+        position.value++;
+
+      } else {
+        current.state = LetterStatus.ERROR;
+        position.value++;
+      }
     }
 }
 
-function nextWord() {
-    if (letterIndex.value !== 0 || words.value[wordIndex.value].length === 1) {
-        wordIndex.value++;
-        letterIndex.value = 0;
-        nextWord();
-        moveCaret();
-    }
+function isAlphaNumeric(key : string): boolean {
+    return /^[a-z0-9]$/i.test(key);
 }
 
-function moveCaret() {
-    const offset = 4;
-    caretElement.value.style.top = `${letterElement.value.offsetTop + offset}px`;
-    caretElement.value.style.left = `${letterElement.value.offsetLeft + letterElement.value.offsetWidth}px`
+function isValidInput(key : string): boolean {
+    return /^[a-z0-9 ]$/i.test(key);
 }
 
 function focusInput() {
@@ -93,20 +116,24 @@ function getAccuracy() {
     return Math.floor((correctLetters.value / totalLetters) * 100)
   }
 
-  function getTotalLetters(words: string[]) {
-    let sum = 0
-    for (let i=0; i<words.length; i++) {
-        sum += words[i].length
-    }
-    return sum
+function getTotalLetters(words: string[]) {
+  let sum = 0
+  for (let i=0; i<words.length; i++) {
+      sum += words[i].length
   }
+  return sum
+}
+
+function getCurrent() {
+    return status.value[position.value];
+}
 
 function setTimer() {
     function tick() {
         if (time.value > 0) {
             time.value--;
         }
-    
+
         if (gameState.value === GameState.WAITING || time.value === 0) {
             clearInterval(interval);
         }
@@ -120,12 +147,20 @@ function setTimer() {
     const interval = setInterval(tick, 1000);
 }
 
+function buildLetterStatus() {
+    status.value = Array.from(words.value.join(" ")).map(char => ({
+      character: char,
+      state: LetterStatus.REMAINING
+    }))
+}
+
 function resetGame() {
     gameState.value = GameState.WAITING;
     time.value = 30
     typedLetter.value = ''
-    wordIndex.value = 0
+    typedWord.value = ''
     letterIndex.value = 0
+    buildLetterStatus();
     wpm.value = 0
 }
 
@@ -133,39 +168,46 @@ onMounted(async () => {
     try {
         const response = await axios.get('/api/quote');
         words.value = response.data.split(' ');
+        buildLetterStatus();
     } catch (error) {
-        console.log('Error fetching quote');
+        console.log('Error fetching quote', error);
     }
 
     focusInput();
-    moveCaret();
 })
+
 </script>
 
 <template>
     <div v-if="gameState !== GameState.FINISHED" class="game">
-        <input
-            ref="inputElement"
-            v-model="typedLetter"
-            @input="updateGame"
-            @keydown="keyPress"
-            class="input"
-            type="text"
-        />
-
-        <div class="time">{{ time }}</div>
-
-        <div ref="wordsElement" class="words" tabindex=0 @focus="focusInput">
-            <span v-for="(word, index) in words" :key="index">
-                <span v-for="(letter, index) in word" :key="index">
-                    {{ letter }}
-                </span>
-            </span>
-
-            <div ref="caretElement" class="caret"></div>
+      <div ref="words" class="words" tabindex=0 @focus="focusInput">
+          <span
+            v-for="({ character, state }, index) in status"
+            :key="index"
+            class="letter"
+            :class="{
+              error: state === LetterStatus.ERROR,
+              correct: state === LetterStatus.CORRECT,
+              skipped: state === LetterStatus.SKIPPED,
+              current: index === position
+            }"
+          >
+            {{ character === ' ' ? '&nbsp;' : character }}
+          </span>
         </div>
 
-        <button @click="resetGame" class="restartButton">Restart</button>
+
+      <input
+        type="text"
+        @keydown="keyPress"
+        v-model="typedWord"
+        ref="inputElement"
+        class="input"
+      />
+
+      <div class="time">{{ time }}</div>
+
+      <button @click="resetGame" class="restartButton">Restart</button>
     </div>
 
     <div v-if="gameState === GameState.FINISHED" class="results">
@@ -178,7 +220,7 @@ onMounted(async () => {
             <p class="title">acc</p>
             <p class="score">{{ acc }}%</p>
         </div>
-        
+
         <button @click="resetGame" class="restartButton">Restart</button>
     </div>
 </template>
@@ -189,8 +231,6 @@ onMounted(async () => {
 }
 
 .time {
-    position: absolute;
-    top: -48px;
     font-size: 1.5rem;
 }
 
@@ -198,41 +238,54 @@ onMounted(async () => {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4em;
     font-size: 1.2rem;
-    letter-spacing: 0.05rem;
+}
+
+.letter {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.12em;
+  line-height: 1em;
+  white-space: pre;
+
+  &.current::before {
+    content: '|';
+    position: absolute;
+    font-size: 1.5rem;
+    left: -5px;
+    animation: 1.2s blink infinite ease-in-out;
+  }
+}
+
+@keyframes blink {
+  0%,
+
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 0;
+  }
 }
 
 .input {
-    position: absolute;
     opacity: 0;
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 4px;
 }
 
 .correct {
-    color: green;
+    color: forestgreen;
 }
 
-.incorrect {
-    color: red;
+.error {
+    background-color: indianred;
 }
 
-.caret {
-    position: absolute;
-    height: 1.2em;
-    top: 0;
-    border-right: 2px solid cyan;
-    animation: caret 1s infinite;
-    transition: all 0.2s ease;
-}
-
-@keyframes caret {
-    0%,
-    to {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
+.skipped {
+    color: #ccc;
 }
 
 .results .title {

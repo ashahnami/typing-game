@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/quote', function(req, res, next) {
-  res.send('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada est suscipit maximus scelerisque. Vivamus posuere pulvinar bibendum. Aenean vitae ante at quam aliquam ornare. Curabitur auctor sit amet nunc nec porttitor. Phasellus erat dolor, scelerisque sit amet magna sit amet, tempor pulvinar eros.')
+  res.send('Lorem ipsum dolor sit amet consectetur adipiscing elit Integer malesuada est suscipit maximus scelerisque Vivamus posuere pulvinar bibendum Aenean vitae ante at quam aliquam ornareit amet tempor pulvinar eros')
 });
 
 module.exports = router;

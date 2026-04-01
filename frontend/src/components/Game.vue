@@ -20,23 +20,14 @@ interface Part {
 
 import {ref, onMounted, useTemplateRef} from 'vue';
 import axios from 'axios';
+import { useGameStore } from '@/stores/game'
+import Results from '@/components/Results.vue'
+import Timer from '@/components/Timer.vue'
 
 const words = ref<string[]>([]);
 
-// Game State
-const position = ref<number>(0);
 const status = ref<Part[]>([]);
-
-const letterIndex = ref<number>(0);
-
-const gameState = ref<GameState>(GameState.WAITING);
-const typedLetter = ref('');
-const typedWord = ref<string>('');
-
-const time = ref(30);
-const wpm = ref(0);
-const acc = ref(0);
-const correctLetters = ref(0);
+const store = useGameStore();
 
 const inputElement = useTemplateRef<HTMLInputElement>('inputElement');
 
@@ -46,7 +37,7 @@ function keyPress(event: KeyboardEvent) {
         return;
     }
 
-    if (gameState.value === GameState.WAITING) {
+    if (store.gameState === GameState.WAITING) {
       startGame();
     }
 
@@ -54,7 +45,6 @@ function keyPress(event: KeyboardEvent) {
         return;
     }
 
-    console.log("key pressed: ", event.key);
     handleLetter(event.key);
 }
 
@@ -63,22 +53,25 @@ const handleLetter = (key: string) => {
       const current = getCurrent()
       if (getCurrent().character === key) {
         current.state = LetterStatus.CORRECT;
-        position.value++;
+        store.correctCharacters++;
+        store.position++;
 
       } else if (key === ' ') {
-        let newPos = position.value;
-        if (position.value > 0 && status.value[position.value - 1].character !== ' ') {
+        let newPos = store.position;
+        if (store.position > 0 && status.value[store.position - 1].character !== ' ') {
           while (newPos < status.value.length && status.value[newPos].character !== ' ') {
             status.value[newPos].state = LetterStatus.SKIPPED;
+            store.incorrectCharacters++;
             newPos++;
           }
         }
-        position.value = newPos
-        position.value++;
+        store.position = newPos;
+        store.position++;
 
       } else {
         current.state = LetterStatus.ERROR;
-        position.value++;
+        store.incorrectCharacters++;
+        store.position++;
       }
     }
 }
@@ -96,50 +89,31 @@ function focusInput() {
 }
 
 function startGame() {
-    gameState.value = GameState.IN_PROGRESS;
+    store.gameState = GameState.IN_PROGRESS;
     setTimer();
 }
 
-function getResults() {
-    wpm.value = getWPM();
-    acc.value = getAccuracy();
-}
-
-function getWPM() {
-    const word = 5;
-    const minutes = 0.5;
-    return Math.floor(correctLetters.value / word / minutes);
-}
-
-function getAccuracy() {
-    const totalLetters = getTotalLetters(words.value)
-    return Math.floor((correctLetters.value / totalLetters) * 100)
-  }
-
-function getTotalLetters(words: string[]) {
-  let sum = 0
-  for (let i=0; i<words.length; i++) {
-      sum += words[i].length
-  }
-  return sum
-}
-
 function getCurrent() {
-    return status.value[position.value];
+    return status.value[store.position];
+}
+
+function getResults() {
+  store.wpm = Math.round((store.correctCharacters * 60) / (5 * store.totalTime));
+  store.accuracy = Math.round((store.correctCharacters / (store.correctCharacters + store.incorrectCharacters)) * 100);
 }
 
 function setTimer() {
     function tick() {
-        if (time.value > 0) {
-            time.value--;
+        if (store.timeRemaining > 0) {
+            store.timeRemaining--;
         }
 
-        if (gameState.value === GameState.WAITING || time.value === 0) {
+        if (store.gameState === GameState.WAITING || store.timeRemaining === 0) {
             clearInterval(interval);
         }
 
-        if (time.value === 0) {
-            gameState.value = GameState.FINISHED;
+        if (store.timeRemaining === 0) {
+            store.gameState = GameState.FINISHED;
             getResults();
         }
     }
@@ -155,14 +129,17 @@ function buildLetterStatus() {
 }
 
 function resetGame() {
-    gameState.value = GameState.WAITING;
-    time.value = 30
-    typedLetter.value = ''
-    typedWord.value = ''
-    letterIndex.value = 0
+    store.gameState = GameState.WAITING;
     buildLetterStatus();
-    wpm.value = 0
+    store.wpm = 0
+    store.accuracy = 0
+    store.totalTime = 30
+    store.timeRemaining = 30
+    store.correctCharacters = 0
+    store.incorrectCharacters = 0
 }
+
+
 
 onMounted(async () => {
     try {
@@ -179,8 +156,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div v-if="gameState !== GameState.FINISHED" class="game">
-      <div ref="words" class="words" tabindex=0 @focus="focusInput">
+    <div v-if="store.gameState !== GameState.FINISHED" class="game">
+      <div class="words" tabindex=0 @focus="focusInput">
           <span
             v-for="({ character, state }, index) in status"
             :key="index"
@@ -189,7 +166,7 @@ onMounted(async () => {
               error: state === LetterStatus.ERROR,
               correct: state === LetterStatus.CORRECT,
               skipped: state === LetterStatus.SKIPPED,
-              current: index === position
+              current: index === store.position
             }"
           >
             {{ character === ' ' ? '&nbsp;' : character }}
@@ -200,38 +177,21 @@ onMounted(async () => {
       <input
         type="text"
         @keydown="keyPress"
-        v-model="typedWord"
         ref="inputElement"
         class="input"
       />
 
-      <div class="time">{{ time }}</div>
+      <Timer />
 
       <button @click="resetGame" class="restartButton">Restart</button>
     </div>
 
-    <div v-if="gameState === GameState.FINISHED" class="results">
-        <div>
-            <p class="title">wpm</p>
-            <p class="score">{{ wpm }}</p>
-        </div>
-
-        <div>
-            <p class="title">acc</p>
-            <p class="score">{{ acc }}%</p>
-        </div>
-
-        <button @click="resetGame" class="restartButton">Restart</button>
-    </div>
+    <Results :restart="resetGame" />
 </template>
 
 <style scoped>
 .game {
     position: relative;
-}
-
-.time {
-    font-size: 1.5rem;
 }
 
 .words {
@@ -286,14 +246,6 @@ onMounted(async () => {
 
 .skipped {
     color: #ccc;
-}
-
-.results .title {
-    font-size: 1.4rem;
-}
-
-.results .score {
-    font-size: 4rem;
 }
 
 .restartButton {

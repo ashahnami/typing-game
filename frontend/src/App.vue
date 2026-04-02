@@ -1,40 +1,32 @@
 <script setup lang="ts">
-import Navbar from './components/Navbar.vue';
+import NavBar from './components/NavBar.vue';
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
   <div class="app-layout">
-    <div>
-      <Navbar />
-    </div>
-    <div class="app-content">
-      <RouterView />
-    </div>
+    <NavBar />
+    <RouterView />
+    <Footer />
   </div>
 </template>
 
 <style scoped>
 .app-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
-  margin: auto;
-}
-
-.app-content {
-  max-width: 1100px;
-  margin: auto;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
   width: 100%;
+  max-width: 1000px;
+  gap: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
 }
 
 header {
   line-height: 1.5;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 nav {
@@ -67,10 +59,6 @@ nav a:first-of-type {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
   }
 
   header .wrapper {

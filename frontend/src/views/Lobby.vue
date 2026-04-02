@@ -13,31 +13,33 @@ const showModal = ref<boolean>(false);
 </script>
 
 <template>
-  <div @click="showModal = true" class="invite-button">Invite people</div>
+  <div>
+    <div @click="showModal = true" class="invite-button">Invite people</div>
 
-  <div class="modal-overlay" v-if="showModal">
-    <div>
-      Share this lobby ID with people you want to invite to the race:
-      <input :value=lobbyId readonly/>
-    </div>
-
-    <button @click="showModal = false">Close</button>
-  </div>
-
-  <div class="lobby-layout">
-    <div class="lobby-col-main">
-      <div class="card">
-        <Game />
+    <div class="modal-overlay" v-if="showModal">
+      <div>
+        Share this lobby ID with people you want to invite to the race:
+        <input :value=lobbyId readonly/>
       </div>
 
-      <div class="card">
-        <Chat :lobby-id="lobbyId" />
-      </div>
+      <button @click="showModal = false">Close</button>
     </div>
 
-    <div class="lobby-col-side">
-      <div class="card">
-        <RacersList :lobby-id="lobbyId" />
+    <div class="lobby-layout">
+      <div class="lobby-col-main">
+        <div class="card">
+          <Game />
+        </div>
+
+        <div class="card">
+          <Chat :lobby-id="lobbyId" />
+        </div>
+      </div>
+
+      <div class="lobby-col-side">
+        <div class="card">
+          <RacersList :lobby-id="lobbyId" />
+        </div>
       </div>
     </div>
   </div>
@@ -66,10 +68,6 @@ const showModal = ref<boolean>(false);
   padding: 16px;
   background-color: #fff;
   border-radius: 4px;
-}
-
-.invite-button {
-  width: 100px;
 }
 
 .invite-button:hover {

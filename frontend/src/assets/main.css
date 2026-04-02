@@ -1,15 +1,19 @@
 @import './base.css';
 
 #app {
-  margin: 0 auto;
-  font-weight: normal;
-  width: 100%;
-  min-height: 100vh;
+    display: grid;
+    justify-items: center;
+    background-color: var(--color-background);
+    font-family: Menlo, monospace;
+    margin: 0 auto;
+    font-weight: normal;
+    width: 100%;
+    min-height: 100vh;
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+    body {
+        display: flex;
+        place-items: center;
+    }
 }

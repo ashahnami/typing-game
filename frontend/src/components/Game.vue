@@ -1,10 +1,6 @@
 <script setup lang="ts">
 
-enum GameState {
-    WAITING,
-    IN_PROGRESS,
-    FINISHED
-}
+import { GameState } from '@/types/game.ts'
 
 enum LetterStatus {
   REMAINING,
@@ -23,6 +19,7 @@ import axios from 'axios';
 import { useGameStore } from '@/stores/game'
 import Results from '@/components/Results.vue'
 import Timer from '@/components/Timer.vue'
+import { Icon } from "@iconify/vue";
 
 const words = ref<string[]>([]);
 
@@ -131,12 +128,13 @@ function buildLetterStatus() {
 function resetGame() {
     store.gameState = GameState.WAITING;
     buildLetterStatus();
-    store.wpm = 0
-    store.accuracy = 0
-    store.totalTime = 30
-    store.timeRemaining = 30
-    store.correctCharacters = 0
-    store.incorrectCharacters = 0
+    store.position = 0;
+    store.wpm = 0;
+    store.accuracy = 0;
+    store.totalTime = 30;
+    store.timeRemaining = 30;
+    store.correctCharacters = 0;
+    store.incorrectCharacters = 0;
 }
 
 
@@ -171,7 +169,7 @@ onMounted(async () => {
           >
             {{ character === ' ' ? '&nbsp;' : character }}
           </span>
-        </div>
+      </div>
 
 
       <input
@@ -179,11 +177,13 @@ onMounted(async () => {
         @keydown="keyPress"
         ref="inputElement"
         class="input"
+        name="typingInput"
+        autocomplete="off"
       />
 
       <Timer />
 
-      <button @click="resetGame" class="restartButton">Restart</button>
+      <Icon icon="subway:round-arrow-1" @click="resetGame" class="restartButton" />
     </div>
 
     <Results :restart="resetGame" />
@@ -192,6 +192,9 @@ onMounted(async () => {
 <style scoped>
 .game {
     position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-content: left;
 }
 
 .words {
@@ -207,6 +210,7 @@ onMounted(async () => {
   margin: 0 0.12em;
   line-height: 1em;
   white-space: pre;
+  color: grey;
 
   &.current::before {
     content: '|';
@@ -230,27 +234,23 @@ onMounted(async () => {
 }
 
 .input {
+    position: absolute;
+    top: 0;
+    left: 0;
     opacity: 0;
-    font-size: 1.2rem;
-    width: 100%;
-    padding: 4px;
+    user-select: none;
 }
 
 .correct {
-    color: forestgreen;
+    color: black;
 }
 
 .error {
-    background-color: indianred;
-}
-
-.skipped {
-    color: #ccc;
+    color: red;
 }
 
 .restartButton {
     font-size: 1.2rem;
-    padding: 0.6rem;
 }
 
 .restartButton:hover {

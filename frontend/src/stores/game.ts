@@ -1,10 +1,5 @@
 import { defineStore } from "pinia";
-
-enum GameState {
-    WAITING,
-    IN_PROGRESS,
-    FINISHED
-}
+import { GameState } from '@/types/game.ts'
 
 export const useGameStore = defineStore('game', {
     state: () => ({

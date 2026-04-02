@@ -1,14 +1,12 @@
 <script setup lang="ts">
-    const props = defineProps<{
-        restart: () => void;
-    }>();
-import { useGameStore } from '@/stores/game'
+import { GameState } from '@/types/game.ts'
 
-enum GameState {
-    WAITING,
-    IN_PROGRESS,
-    FINISHED
-}
+const props = defineProps<{
+    restart: () => void;
+}>();
+
+import { useGameStore } from '@/stores/game'
+import { Icon } from "@iconify/vue";
 
 const store = useGameStore();
 </script>
@@ -25,7 +23,7 @@ const store = useGameStore();
         <p class="score">{{ store.accuracy }}%</p>
     </div>
 
-    <button @click="props.restart" class="restartButton">Restart</button>
+    <Icon icon="subway:round-arrow-1" @click="props.restart" class="restartButton"/>
 </div>
 </template>
 
@@ -36,5 +34,13 @@ const store = useGameStore();
 
 .results .score {
     font-size: 4rem;
+}
+
+.restartButton {
+  font-size: 1.4rem;
+}
+
+.restartButton:hover {
+  cursor: pointer;
 }
 </style>

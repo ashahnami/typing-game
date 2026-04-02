@@ -48,7 +48,6 @@ onMounted(() => {
 <style scoped>
 nav {
   width: 100%;
-  background-color: #7300ff;
 }
 
 .nav-layout {
@@ -63,7 +62,6 @@ nav {
 
 nav .link {
     font-size: 1.2rem;
-    color: #fff;
     text-decoration: none;
     padding: 2px;
 }

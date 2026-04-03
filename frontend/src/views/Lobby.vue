@@ -3,23 +3,30 @@ import {ref} from 'vue'
 import { useRoute } from 'vue-router'
 import Chat from '@/components/Chat.vue'
 import Game from "@/components/Game.vue";
-import RacersList from "@/components/RacersList.vue";
+import RacersList from "@/components/RacersList.vue"
+import { socket } from '@/socket';
+import { useLobbyStore } from '@/stores/lobby';
 
 const route = useRoute();
 const lobbyId = ref(route.query.lobbyId);
 const racers = ref<string[]>([]);
 const showModal = ref<boolean>(false);
+const lobbyStore = useLobbyStore();
 
+const startRace = () => {
+  lobbyStore.startGame();
+}
 </script>
 
 <template>
   <div>
+    {{ lobbyStore.gameStarted ? 'Game started' : 'Game not started'}}
     <div @click="showModal = true" class="invite-button">Invite people</div>
 
     <div class="modal-overlay" v-if="showModal">
       <div>
         Share this lobby ID with people you want to invite to the race:
-        <input :value=lobbyId readonly/>
+        <input :value="lobbyStore.lobbyId" readonly />
       </div>
 
       <button @click="showModal = false">Close</button>
@@ -29,21 +36,21 @@ const showModal = ref<boolean>(false);
       <div class="lobby-col-main">
         <div class="card">
           <Game />
+          <button @click="startRace">Start Race</button>
         </div>
 
         <div class="card">
-          <Chat :lobby-id="lobbyId" />
+          <Chat />
         </div>
       </div>
 
       <div class="lobby-col-side">
         <div class="card">
-          <RacersList :lobby-id="lobbyId" />
+          <RacersList />
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>

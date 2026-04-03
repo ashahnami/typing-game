@@ -1,27 +1,17 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref, watch} from 'vue';
+import {nextTick, ref, watch} from 'vue';
 import { socket } from '@/socket';
+import { useLobbyStore } from '@/stores/lobby.ts'
 
-const props = defineProps<{ lobbyId: string }>();
-
-const messages = ref<string[][]>([]);
 const messageInput = ref<string>('');
 const messagesContainer = ref<HTMLDivElement | null>(null);
+const lobbyStore = useLobbyStore();
 
 function sendMessage() {
-  console.log('sending message:', messageInput.value);
-  socket.emit('send-message', socket.id, messageInput.value, props.lobbyId);
-  messageInput.value = '';
+  lobbyStore.sendMessage(messageInput.value)
 }
 
-onMounted(() => {
-  socket.on("receive-message", (data) => {
-    console.log("received messaged: " + data);
-    messages.value.push([data.username, data.message]);
-  })
-})
-
-watch(() => messages.value.length, async () => {
+watch(() => lobbyStore.messages.length, async () => {
   await nextTick();
   if (messagesContainer.value) {
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
@@ -34,12 +24,12 @@ watch(() => messages.value.length, async () => {
     <h3>Chat</h3>
 
     <div class="chat-messages" ref="messagesContainer">
-      <div v-for="(msg, idx) in messages" :key="idx" class="chat-message">
+      <div v-for="(msg, idx) in lobbyStore.messages" :key="idx" class="chat-message">
         <div class="username">
-          {{ msg[0]}}
-          <span v-if="socket.id === msg[0]">(You)</span>
+          {{ msg.username}}
+          <span v-if="socket.id === msg.username">(You)</span>
         </div>
-        <div class="message">{{ msg[1] }}</div>
+        <div class="message">{{ msg.message }}</div>
       </div>
     </div>
 

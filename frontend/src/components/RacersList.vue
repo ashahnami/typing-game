@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import { socket } from '@/socket';
-
-const props = defineProps<{ lobbyId: string }>();
+import { useLobbyStore } from '@/stores/lobby';
 
 const racers = ref<string[]>([]);
+const lobbyStore = useLobbyStore();
 
 function fetchRacers() {
-  socket.emit('get-racers', props.lobbyId, (racersList: string[]) => {
+  socket.emit('get-racers', lobbyStore.lobbyId, (racersList: string[]) => {
     racers.value = racersList;
   })
   return true;
@@ -21,7 +21,7 @@ onMounted(fetchRacers)
     <h3>Racers</h3>
 
     <div class="racers-list">
-      <div v-for="(racer, idx) in racers" :key="idx" class="racer">
+      <div v-for="(racer, idx) in lobbyStore.players" :key="idx" class="racer">
         {{ racer }}
         <span v-if="socket.id === racer">(You)</span>
       </div>

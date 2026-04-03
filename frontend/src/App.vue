@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue';
 import Footer from '@/components/Footer.vue'
+import { useLobbyStore } from '@/stores/lobby.ts'
+import { socket } from '@/socket';
+import { useConnectionStore } from '@/stores/connection.ts'
+
+const lobbyStore = useLobbyStore();
+const connectionStore = useConnectionStore();
+
+socket.off();
+
+lobbyStore.bindEvents();
+connectionStore.bindEvents();
 </script>
 
 <template>

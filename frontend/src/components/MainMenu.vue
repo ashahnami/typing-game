@@ -2,27 +2,19 @@
 import {onMounted, ref} from 'vue';
 import router from '@/router';
 import { socket } from '@/socket';
+import { useLobbyStore } from '@/stores/lobby';
 
 const lobbyId = ref('');
+const lobbyStore = useLobbyStore();
 
 function createLobby() {
-  socket.emit('create-lobby');
+  lobbyStore.createLobby();
 }
 
 function joinLobby() {
-  socket.emit('join-lobby', { lobbyId: lobbyId.value });
+  lobbyStore.joinLobby(lobbyId.value);
 }
 
-onMounted(() => {
-  socket.on('lobby-joined', (data) => {
-    console.log('lobby joined')
-    router.push({ path: '/lobby', query: { lobbyId: data.lobbyId } });
-  });
-
-  socket.on('lobby-not-found', () => {
-    console.log('lobby not found')
-  });
-})
 </script>
 
 <template>
